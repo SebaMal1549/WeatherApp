@@ -19,16 +19,17 @@ enum NetworkError: Error {
     /// Occurs when the request faild.
     case requestFailed(statusCode: Int)
     
+    /// Occurs when the downloaded data is invaid.
+    case wrongData
+    
     // MARK: - Properties
     
     var localizedDescription: String {
         switch self {
-        case .badURL:
-            return "Bad URL."
-        case .badResponse:
-            return "Bad response."
-        case .requestFailed(statusCode: let code):
-            return "Request failed with status code: \(code)."
+        case .badURL: "Bad URL."
+        case .badResponse: "Bad response."
+        case .requestFailed(statusCode: let code): "Request failed with status code: \(code)."
+        case .wrongData: "Downloaded data is invalid."
         }
     }
     

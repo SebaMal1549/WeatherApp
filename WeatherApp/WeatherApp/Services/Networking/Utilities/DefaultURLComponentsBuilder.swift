@@ -8,12 +8,12 @@
 import Foundation
 
 /// The class responsible for creating the basic URLComponents.
-final class DefaultURLComponentsBuilder {
+struct DefaultURLComponentsBuilder {
     
     // MARK: - API
     
     /// Creates and returns basic URLComponents.
-    func createURLComponents(for url: URL) -> URLComponents? {
+    static func createURLComponents(for url: URL) -> URLComponents? {
         var urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: false)
         
         urlComponents?.queryItems = [

@@ -12,7 +12,6 @@ struct Country : Decodable, Equatable {
     
     // MARK: - Properties
     
-    /// Name of the country.
     let name: String
     
     // MARK: - Coding Keys
