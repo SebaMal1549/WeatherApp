@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		3411700A2D54DB4900624A79 /* CombineCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = 341170092D54DB4900624A79 /* CombineCocoa */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		34116F342D520FC700624A79 /* WeatherApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WeatherApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -36,6 +40,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3411700A2D54DB4900624A79 /* CombineCocoa in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -78,6 +83,7 @@
 			);
 			name = WeatherApp;
 			packageProductDependencies = (
+				341170092D54DB4900624A79 /* CombineCocoa */,
 			);
 			productName = WeatherApp;
 			productReference = 34116F342D520FC700624A79 /* WeatherApp.app */;
@@ -107,6 +113,9 @@
 			);
 			mainGroup = 34116F2B2D520FC700624A79;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				341170082D54DB4900624A79 /* XCRemoteSwiftPackageReference "CombineCocoa" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 34116F352D520FC700624A79 /* Products */;
 			projectDirPath = "";
@@ -343,6 +352,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		341170082D54DB4900624A79 /* XCRemoteSwiftPackageReference "CombineCocoa" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/CombineCommunity/CombineCocoa";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.4.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		341170092D54DB4900624A79 /* CombineCocoa */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 341170082D54DB4900624A79 /* XCRemoteSwiftPackageReference "CombineCocoa" */;
+			productName = CombineCocoa;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 34116F2C2D520FC700624A79 /* Project object */;
 }

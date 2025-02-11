@@ -22,4 +22,9 @@ struct URLProvider {
         baseURL.appendingPathComponent("locations/v1/search")
     }
     
+    /// URL needed to query the server for weather data.
+    static func createWeatherDataURL(with cityKey: String) -> URL {
+        baseURL.appendingPathComponent("currentconditions/v1/\(cityKey)")
+    }
+    
 }
