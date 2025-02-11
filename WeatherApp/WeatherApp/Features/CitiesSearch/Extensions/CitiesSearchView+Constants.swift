@@ -8,12 +8,12 @@
 import Foundation
 
 extension CitiesSearchView {
-    
+
     enum Constants {
-        
+
         static let textFieldCornerRadius: CGFloat = 8
         static let textFieldBorderWidth: CGFloat = 1
-        
+
     }
-    
+
 }

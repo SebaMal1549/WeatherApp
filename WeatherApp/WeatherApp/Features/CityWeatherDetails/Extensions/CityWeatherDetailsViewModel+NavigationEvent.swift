@@ -8,12 +8,12 @@
 import Foundation
 
 extension CityWeatherDetailsViewModel {
-    
+
     enum NavigationEvent {
-        
+
         case showAlert(title: String, message: String)
         case finish
-        
+
     }
-    
+
 }

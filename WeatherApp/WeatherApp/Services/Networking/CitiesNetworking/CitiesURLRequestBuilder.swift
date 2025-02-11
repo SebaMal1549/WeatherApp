@@ -8,18 +8,18 @@
 import Foundation
 
 final class CitiesURLRequestBuilder {
-    
+
     // MARK: - API
-    
+
     func createRequest(with serachText: String) throws -> URLRequest {
-        var urlComponents = DefaultURLComponentsBuilder.createURLComponents(for: URLProvider.citiesURL)
-        
+        var urlComponents = DefaultURLComponentsBuilder.create(for: URLProvider.citiesURL)
+
         urlComponents?.queryItems?.append(contentsOf: [
             URLQueryItem(name: "q", value: serachText)
         ])
-        
+
         guard let url = urlComponents?.url else { throw NetworkError.badURL }
         return URLRequest(url: url)
     }
-    
+
 }
