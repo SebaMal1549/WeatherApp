@@ -8,11 +8,11 @@
 import Foundation
 
 extension CitiesSearchViewModel {
-    
+
     enum Constants {
-        
+
         static let searchFieldDebounceTime = 0.2
-        
+
     }
-    
+
 }

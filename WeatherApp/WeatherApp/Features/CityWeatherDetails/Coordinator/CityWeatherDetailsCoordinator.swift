@@ -11,22 +11,22 @@ import UIKit
 
 /// Coordinator for CityWeatherDetails feature.
 final class CityWeatherDetailsCoordinator: Coordinator {
-    
+
     // MARK: - Publisher
-    
+
     private var navigationEventsPublisher: AnyPublisher<CityWeatherDetailsViewModel.NavigationEvent, Never>?
-    
+
     // MARK: - Properties
-    
+
     var parentCoordinator: Coordinator?
     var children = [Coordinator]()
     var navigationController: UINavigationController
-    
+
     private let city: City
     private var cancellables = [AnyCancellable]()
-    
+
     // MARK: - Lifecycle
-    
+
     init(
         navigationController: UINavigationController,
         city: City,
@@ -36,9 +36,9 @@ final class CityWeatherDetailsCoordinator: Coordinator {
         self.city = city
         self.navigationController = navigationController
     }
-    
+
     // MARK: - API
-    
+
     func start() {
         let networkingService = WeatherDataNetworkingService()
         let viewModel = CityWeatherDetailsViewModel(city: city, networkingService: networkingService)
@@ -46,7 +46,7 @@ final class CityWeatherDetailsCoordinator: Coordinator {
         parentCoordinator?.children.append(self)
         navigationController.pushViewController(viewController, animated: true)
     }
-    
+
     func showAlert(title: String, message: String) {
         DispatchQueue.main.async { [weak self] in
             guard let self else { return }
@@ -54,14 +54,14 @@ final class CityWeatherDetailsCoordinator: Coordinator {
             let action = UIAlertAction(title: "OK", style: .default) { _ in
                 self.navigationController.popViewController(animated: true)
             }
-            
+
             alert.addAction(action)
             navigationController.present(alert, animated: true, completion: nil)
         }
     }
-    
+
     // MARK: - Methods
-    
+
     private func bindEvents() {
         navigationEventsPublisher?
             .sink { [weak self] event in
@@ -75,5 +75,5 @@ final class CityWeatherDetailsCoordinator: Coordinator {
             }
             .store(in: &cancellables)
     }
-    
+
 }

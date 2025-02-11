@@ -9,21 +9,21 @@ import Foundation
 
 /// Custom networking erros.
 enum NetworkError: Error {
-    
+
     /// Occurs when the url is invalid.
     case badURL
-    
+
     /// Occurs when the response is invalid.
     case badResponse
-    
+
     /// Occurs when the request faild.
     case requestFailed(statusCode: Int)
-    
+
     /// Occurs when the downloaded data is invaid.
     case wrongData
-    
+
     // MARK: - Properties
-    
+
     var localizedDescription: String {
         switch self {
         case .badURL: "Bad URL."
@@ -32,5 +32,5 @@ enum NetworkError: Error {
         case .wrongData: "Downloaded data is invalid."
         }
     }
-    
+
 }

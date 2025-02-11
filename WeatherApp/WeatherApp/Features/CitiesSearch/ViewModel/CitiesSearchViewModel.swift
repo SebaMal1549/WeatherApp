@@ -11,17 +11,17 @@ import os
 
 /// ViewModel for the feature responsible for the city search view.
 final class CitiesSearchViewModel {
-    
+
     // MARK: - Publishers
-    
+
     lazy var citiesListFetchedPublisher = _citiesListFetchedPublisher.eraseToAnyPublisher()
     private let _citiesListFetchedPublisher = PassthroughSubject<[City], Never>()
-    
-    lazy var navigationEventsPublisher: AnyPublisher<NavigationEvent, Never> = _navigationEventsSubject.eraseToAnyPublisher()
+
+    lazy var navigationEventsPublisher = _navigationEventsSubject.eraseToAnyPublisher()
     private let _navigationEventsSubject = PassthroughSubject<NavigationEvent, Never>()
-    
+
     let eventsSubject = PassthroughSubject<CitiesSearchView.Event, Never>()
-    
+
     private lazy var searchTextDidChangePublisher: AnyPublisher<String, Never>? = eventsSubject
         .compactMap { event in
             if case let .userEditedSearchText(searchText) = event {
@@ -31,25 +31,25 @@ final class CitiesSearchViewModel {
             }
         }
         .eraseToAnyPublisher()
-    
+
     // MARK: - Properties
-    
+
     private let networkingService: CitiesNetworkingServiceType
     private var cancellables = [AnyCancellable]()
-    
+
     // MARK: - Lifecycle
-    
+
     init(networkingService: CitiesNetworkingServiceType) {
         self.networkingService = networkingService
         bindEvents()
     }
-    
+
     deinit {
         _navigationEventsSubject.send(.finish)
     }
-    
+
     // MARK: - Methods
-    
+
     private func handleViewEvent(_ event: CitiesSearchView.Event) {
         switch event {
         case let .userTappedCityCell(city):
@@ -58,7 +58,7 @@ final class CitiesSearchViewModel {
             break
         }
     }
-    
+
     private func bindEvents() {
         eventsSubject
             .sink { [weak self] event in
@@ -66,7 +66,7 @@ final class CitiesSearchViewModel {
                 handleViewEvent(event)
             }
             .store(in: &cancellables)
-        
+
         searchTextDidChangePublisher?
             .dropFirst()
             .removeDuplicates()
@@ -77,11 +77,11 @@ final class CitiesSearchViewModel {
             }
             .store(in: &cancellables)
     }
-    
+
     private func goToWeatherDetails(for city: City) {
         _navigationEventsSubject.send(.goToWeatherDetails(city))
     }
-    
+
     private func sendRequestToGetCities(with searchText: String?) {
         Task {
             do {
@@ -94,5 +94,5 @@ final class CitiesSearchViewModel {
             }
         }
     }
-    
+
 }

@@ -1,0 +1,105 @@
+# Docs: https://realm.github.io/SwiftLint/index.html
+
+disabled_rules:
+  #- control_statement
+  - identifier_name
+  - redundant_string_enum_value
+  - object_literal
+  - function_parameter_count
+  - inert_defer
+  - notification_center_detachment
+  - shorthand_operator
+  - blanket_disable_command
+opt_in_rules:
+  - attributes
+  - closure_end_indentation
+  - closure_spacing
+  - empty_count
+  - explicit_init
+  - fatal_error_message
+  - first_where
+  - force_unwrapping
+  - implicitly_unwrapped_optional
+  - joined_default_parameter
+  - let_var_whitespace
+  - last_where
+  - multiline_parameters
+  - object_literal
+  - operator_usage_whitespace
+  - optional_enum_case_matching
+  - overridden_super_call
+  - pattern_matching_keywords
+  - private_outlet
+  - prefer_zero_over_explicit_init
+  - prohibited_super_call
+  - quick_discouraged_call
+  - redundant_nil_coalescing
+  - redundant_type_annotation
+  - redundant_self_in_closure
+  - return_value_from_void_function
+  - single_test_class
+  - sorted_imports
+  - sorted_first_last
+  - shorthand_optional_binding
+  - self_binding
+  - switch_case_on_newline
+  - unneeded_parentheses_in_closure_argument
+  - vertical_parameter_alignment_on_call
+  - yoda_condition
+  - weak_delegate
+  - empty_string
+
+included:
+  - WeatherApp
+
+excluded:
+  - Pods
+  - "**/*.generated.swift"
+
+force_cast: error
+
+nesting:
+  type_level: 3
+
+cyclomatic_complexity:
+  ignores_case_statements: true
+
+function_body_length:
+  warning: 60
+  error: 120
+
+type_body_length:
+  warning: 500
+  error: 800
+
+file_length:
+  warning: 500
+  error: 1200
+
+line_length:
+  warning: 150
+  error: 200
+
+type_name:
+  min_length: 4
+  max_length:
+    warning: 50
+    error: 80
+  excluded:
+    - vm
+    - id
+    - URL
+    - GlobalAPIKey
+large_tuple:
+  warning: 3
+  error: 5
+
+custom_rules:
+  weak_action_responder:
+    name: "Weak ActionResponder"
+    regex: "^[\\t ]*(?!weak)\\s?(lazy )?(private(\\(set\\))? )?(lazy )?(var|let)\\s+\\w+:\\s*\\w*[Rr]esponder\\w*\\??$"
+    message: "ActionResponders should be weak to avoid reference cycles."
+    severity: error
+
+# identifier_name:
+#     allowed_symbols: ["_"]

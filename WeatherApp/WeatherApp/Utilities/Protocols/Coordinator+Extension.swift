@@ -8,13 +8,13 @@
 import Foundation
 
 extension Coordinator {
-    
+
     func removeChild(_ coordinator: Coordinator?) {
         children.removeAll(where: { $0 === coordinator})
     }
-    
+
     func finish() {
         parentCoordinator?.removeChild(self)
     }
-    
+
 }
