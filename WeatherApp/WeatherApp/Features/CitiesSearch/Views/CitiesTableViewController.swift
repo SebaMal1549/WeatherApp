@@ -25,6 +25,18 @@ final class CitiesTableViewController: UITableViewController {
         }
     }
 
+    var savedCities = [City(
+        area: AdministrativeArea(name: "Małopolska"),
+        country: Country(name: "Polska"),
+        key: "test",
+        name: "Kraków",
+        rank: 1
+    )] {
+        didSet {
+            reload()
+        }
+    }
+
     // MARK: - Lifecycle
 
     override func viewDidLoad() {
@@ -43,24 +55,63 @@ final class CitiesTableViewController: UITableViewController {
 
     // MARK: - Table view data source
 
+    override func numberOfSections(in tableView: UITableView) -> Int { 2 }
+
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        cities.count
+        guard let section = Section(rawValue: section) else { return 0 }
+        switch section {
+        case .savedCities:
+            return savedCities.count
+        case .cities:
+            return cities.count
+        }
+    }
+
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        guard let section = Section(rawValue: section) else { return nil }
+        switch section {
+        case .savedCities:
+            guard !savedCities.isEmpty else { return nil }
+            return "Ostatnio sprawdzane miasta"
+        case .cities:
+            guard !cities.isEmpty else { return nil }
+            return "Wyniki wyszukiwania"
+        }
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: CityCell.identifier,
+        guard let section = Section(rawValue: indexPath.section),
+              let cell = tableView.dequeueReusableCell(withIdentifier: CityCell.identifier,
                                                        for: indexPath) as? CityCell else {
             let cell = UITableViewCell()
             cell.textLabel?.text = cities[indexPath.row].name
             return cell
         }
 
-        cell.configureCell(with: cities[indexPath.row])
+        switch section {
+        case .savedCities:
+            cell.configureCell(with: savedCities[indexPath.row])
+        case .cities:
+            cell.configureCell(with: cities[indexPath.row])
+        }
+
         return cell
     }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        _userTappedCityCellSubject.send(cities[indexPath.row])
+        guard let section = Section(rawValue: indexPath.section) else { return }
+        switch section {
+        case .savedCities:
+            _userTappedCityCellSubject.send(savedCities[indexPath.row])
+        case .cities:
+            _userTappedCityCellSubject.send(cities[indexPath.row])
+        }
+    }
+
+    override func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+        guard let header = view as? UITableViewHeaderFooterView else { return }
+        header.textLabel?.textAlignment = .left
+        header.textLabel?.frame = CGRect(x: 0, y: 0, width: tableView.frame.width, height: header.frame.height)
     }
 
 }
