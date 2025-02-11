@@ -5,11 +5,16 @@
 //  Created by Sebastian Maludziński on 05/02/2025.
 //
 
+import Combine
 import Foundation
 import UIKit
 
 /// Coordinator for CityWeatherDetails feature.
 final class CityWeatherDetailsCoordinator: Coordinator {
+    
+    // MARK: - Publisher
+    
+    private var navigationEventsPublisher: AnyPublisher<CityWeatherDetailsViewModel.NavigationEvent, Never>?
     
     // MARK: - Properties
     
@@ -18,6 +23,7 @@ final class CityWeatherDetailsCoordinator: Coordinator {
     var navigationController: UINavigationController
     
     private let city: City
+    private var cancellables = [AnyCancellable]()
     
     // MARK: - Lifecycle
     
@@ -34,8 +40,8 @@ final class CityWeatherDetailsCoordinator: Coordinator {
     // MARK: - API
     
     func start() {
-        let networkingService = WeatherDataNetworkingService(requestBuilder: WeatherDataURLRequestBuilder())
-        let viewModel = CityWeatherDetailsViewModel(city: city, networkingService: networkingService, coordinator: self)
+        let networkingService = WeatherDataNetworkingService()
+        let viewModel = CityWeatherDetailsViewModel(city: city, networkingService: networkingService)
         let viewController = CityWeatherDetailsViewController(viewModel: viewModel)
         parentCoordinator?.children.append(self)
         navigationController.pushViewController(viewController, animated: true)
@@ -52,6 +58,22 @@ final class CityWeatherDetailsCoordinator: Coordinator {
             alert.addAction(action)
             navigationController.present(alert, animated: true, completion: nil)
         }
+    }
+    
+    // MARK: - Methods
+    
+    private func bindEvents() {
+        navigationEventsPublisher?
+            .sink { [weak self] event in
+                guard let self else { return }
+                switch event {
+                case let .showAlert(title, message):
+                    showAlert(title: title, message: message)
+                case .finish:
+                    finish()
+                }
+            }
+            .store(in: &cancellables)
     }
     
 }

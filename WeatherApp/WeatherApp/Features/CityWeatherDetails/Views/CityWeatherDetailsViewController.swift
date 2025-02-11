@@ -23,7 +23,7 @@ final class CityWeatherDetailsViewController: UIViewController {
     init(viewModel: CityWeatherDetailsViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
-        bind()
+        bindEvents()
     }
     
     required init?(coder: NSCoder) {
@@ -41,7 +41,7 @@ final class CityWeatherDetailsViewController: UIViewController {
     
     // MARK: - Methods
     
-    private func bind() {
+    private func bindEvents() {
         viewModel.weatherDataFetchedPublisher
             .sink { [weak self] weatherData, city in
                 guard let self else { return }

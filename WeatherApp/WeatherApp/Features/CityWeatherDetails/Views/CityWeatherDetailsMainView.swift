@@ -35,6 +35,7 @@ final class CityWeatherDetailsMainView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupView()
+        setupConstraints()
     }
     
     required init?(coder: NSCoder) {
@@ -52,10 +53,12 @@ final class CityWeatherDetailsMainView: UIView {
     
     private func setupView() {
         backgroundColor = .tertiarySystemBackground
-        
         addSubview(progressView)
         addSubview(contentView)
-        
+        contentView.isHidden = true
+    }
+    
+    private func setupConstraints() {
         NSLayoutConstraint.activate([
             progressView.centerXAnchor.constraint(equalTo: centerXAnchor),
             progressView.centerYAnchor.constraint(equalTo: centerYAnchor),
@@ -63,8 +66,6 @@ final class CityWeatherDetailsMainView: UIView {
             contentView.widthAnchor.constraint(equalTo: widthAnchor),
             contentView.heightAnchor.constraint(equalTo: heightAnchor)
         ])
-        
-        contentView.isHidden = true
     }
     
     private func updateViewForState() {

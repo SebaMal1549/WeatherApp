@@ -8,18 +8,12 @@
 import Foundation
 
 /// Networking for cities requests.
-final class CitiesNetworkingService: AnyCitiesNetworkingService {
+final class CitiesNetworkingService: CitiesNetworkingServiceType {
     
     // MARK: - Properties
     
     // Builder for cities requets.
-    private let requestBuilder: CitiesURLRequestBuilder
-    
-    // MARK: - Lifecycle
-    
-    init(requestBuilder: CitiesURLRequestBuilder) {
-        self.requestBuilder = requestBuilder
-    }
+    private let requestBuilder = CitiesURLRequestBuilder()
     
     // MARK: - API
     

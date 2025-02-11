@@ -14,11 +14,13 @@ final class CitiesSearchViewModel {
     
     // MARK: - Publishers
     
-    /// Publisher indicating that the list of cities has been fetched.
     lazy var citiesListFetchedPublisher = _citiesListFetchedPublisher.eraseToAnyPublisher()
     private let _citiesListFetchedPublisher = PassthroughSubject<[City], Never>()
     
-    let eventsSubject = PassthroughSubject<CitiesSearchViewEvent, Never>()
+    lazy var navigationEventsPublisher: AnyPublisher<NavigationEvent, Never> = _navigationEventsSubject.eraseToAnyPublisher()
+    private let _navigationEventsSubject = PassthroughSubject<NavigationEvent, Never>()
+    
+    let eventsSubject = PassthroughSubject<CitiesSearchView.Event, Never>()
     
     private lazy var searchTextDidChangePublisher: AnyPublisher<String, Never>? = eventsSubject
         .compactMap { event in
@@ -31,27 +33,24 @@ final class CitiesSearchViewModel {
         .eraseToAnyPublisher()
     
     // MARK: - Properties
-        
-    private weak var coordinator: CitiesSearchCoordinator?
     
-    private let networkingService: AnyCitiesNetworkingService
+    private let networkingService: CitiesNetworkingServiceType
     private var cancellables = [AnyCancellable]()
     
     // MARK: - Lifecycle
     
-    init(networkingService: AnyCitiesNetworkingService, coordinator: CitiesSearchCoordinator?) {
+    init(networkingService: CitiesNetworkingServiceType) {
         self.networkingService = networkingService
-        self.coordinator = coordinator
-        bind()
+        bindEvents()
     }
     
     deinit {
-        coordinator?.finish()
+        _navigationEventsSubject.send(.finish)
     }
     
-    // MARK: - API
+    // MARK: - Methods
     
-    func handleViewEvent(_ event: CitiesSearchViewEvent) {
+    private func handleViewEvent(_ event: CitiesSearchView.Event) {
         switch event {
         case let .userTappedCityCell(city):
             goToWeatherDetails(for: city)
@@ -60,9 +59,7 @@ final class CitiesSearchViewModel {
         }
     }
     
-    // MARK: - Methods
-    
-    private func bind() {
+    private func bindEvents() {
         eventsSubject
             .sink { [weak self] event in
                 guard let self else { return }
@@ -73,7 +70,7 @@ final class CitiesSearchViewModel {
         searchTextDidChangePublisher?
             .dropFirst()
             .removeDuplicates()
-            .debounce(for: .seconds(0.2), scheduler: RunLoop.main)
+            .debounce(for: .seconds(Constants.searchFieldDebounceTime), scheduler: RunLoop.main)
             .sink { [weak self] searchText in
                 guard let self, !searchText.isEmpty else { return }
                 sendRequestToGetCities(with: searchText)
@@ -82,18 +79,18 @@ final class CitiesSearchViewModel {
     }
     
     private func goToWeatherDetails(for city: City) {
-        coordinator?.goToWeatherDetails(for: city)
+        _navigationEventsSubject.send(.goToWeatherDetails(city))
     }
     
     private func sendRequestToGetCities(with searchText: String?) {
         Task {
             do {
-                let cities = try await self.networkingService.fetchCities(searchText: searchText)//.sorted()
+                let cities = try await self.networkingService.fetchCities(searchText: searchText).sorted()
                 _citiesListFetchedPublisher.send(cities)
             } catch {
                 os_log("NetworkingError: \(error)")
-                coordinator?.showAlert(title: "Nie udało się pobrać listy miast.",
-                                       message: "Spróbuj ponownie później.")
+                _navigationEventsSubject.send(.showAlert(title: "Nie udało się pobrać listy miast.",
+                                                         message: "Spróbuj ponownie później."))
             }
         }
     }

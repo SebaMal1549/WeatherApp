@@ -14,7 +14,7 @@ final class CitiesSearchView: UIView {
     // MARK: - Publishers
     
     /// Publisher responsible for informing that the user has selected some cell in the list of cities.
-    lazy var userTappedCityCellPublisher = citiesTableViewController.userTappedCityCell
+    lazy var userTappedCityCellPublisher = citiesTableViewController.userTappedCityCellPublisher
     
     /// Publisher indicating that a user has typed something in the search field.
     lazy var textFieldPublisher = textField.textPublisher
@@ -25,9 +25,9 @@ final class CitiesSearchView: UIView {
         let textField = TextFieldWithPadding()
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.backgroundColor = .secondarySystemBackground
-        textField.layer.cornerRadius = 8
+        textField.layer.cornerRadius = Constants.textFieldCornerRadius
         textField.layer.masksToBounds = true
-        textField.layer.borderWidth = 1
+        textField.layer.borderWidth = Constants.textFieldBorderWidth
         textField.layer.borderColor = UIColor.systemGray.cgColor
         textField.placeholder = "Wyszukaj miasto..."
         return textField
@@ -44,6 +44,7 @@ final class CitiesSearchView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupView()
+        setupConstraints()
     }
     
     required init?(coder: NSCoder) {
@@ -68,7 +69,9 @@ final class CitiesSearchView: UIView {
         
         addSubview(textField)
         addSubview(citiesTableViewController.view)
-        
+    }
+    
+    private func setupConstraints() {
         NSLayoutConstraint.activate([
             textField.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
             textField.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.9),

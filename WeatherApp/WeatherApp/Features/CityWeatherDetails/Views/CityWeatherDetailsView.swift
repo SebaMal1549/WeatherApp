@@ -79,6 +79,7 @@ final class CityWeatherDetailsView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupView()
+        setupConstraints()
     }
     
     required init?(coder: NSCoder) {
@@ -121,7 +122,9 @@ final class CityWeatherDetailsView: UIView {
         gridView.addArrangedSubview(secondRowView)
         secondRowView.addArrangedSubview(realFeelTemperatureTile)
         secondRowView.addArrangedSubview(windTile)
-        
+    }
+    
+    private func setupConstraints() {
         NSLayoutConstraint.activate([
             mainStackView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 25),
             mainStackView.widthAnchor.constraint(equalTo: safeAreaLayoutGuide.widthAnchor),

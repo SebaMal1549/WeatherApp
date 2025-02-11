@@ -5,11 +5,16 @@
 //  Created by Sebastian Maludziński on 05/02/2025.
 //
 
+import Combine
 import Foundation
 import UIKit
 
 /// Coordinator for CitiesSearch feature.
 final class CitiesSearchCoordinator: Coordinator {
+    
+    // MARK: - Publisher
+    
+    private var navigationEventsPublisher: AnyPublisher<CitiesSearchViewModel.NavigationEvent, Never>?
     
     // MARK: - Properties
     
@@ -17,7 +22,7 @@ final class CitiesSearchCoordinator: Coordinator {
     var children = [Coordinator]()
     var navigationController: UINavigationController
     
-    private weak var viewController: CitiesSearchViewController?
+    private var cancellables = [AnyCancellable]()
     
     // MARK: - Lifecycle
     
@@ -29,12 +34,13 @@ final class CitiesSearchCoordinator: Coordinator {
     // MARK: - API
     
     func start() {
-        let networkigService = CitiesNetworkingService(requestBuilder: CitiesURLRequestBuilder())
-        let viewModel = CitiesSearchViewModel(networkingService: networkigService, coordinator: self)
+        let networkigService = CitiesNetworkingService()
+        let viewModel = CitiesSearchViewModel(networkingService: networkigService)
         let viewController = CitiesSearchViewController(viewModel: viewModel)
-        self.viewController = viewController
+        navigationEventsPublisher = viewModel.navigationEventsPublisher
         parentCoordinator?.children.append(self)
         navigationController.setViewControllers([viewController], animated: true)
+        bindEvents()
     }
     
     func goToWeatherDetails(for city: City) {
@@ -49,12 +55,32 @@ final class CitiesSearchCoordinator: Coordinator {
             guard let self else { return }
             let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
             let action = UIAlertAction(title: "OK", style: .default)  { _ in
-                self.viewController?.clearSearchText()
+                if let test = self.navigationController.topViewController as? CitiesSearchViewController {
+                    test.clearSearchText()
+                }
             }
             
             alert.addAction(action)
             navigationController.present(alert, animated: true, completion: nil)
         }
+    }
+    
+    // MARK: - Methods
+    
+    private func bindEvents() {
+        navigationEventsPublisher?
+            .sink { [weak self] event in
+                guard let self else { return }
+                switch event {
+                case let .goToWeatherDetails(city):
+                    goToWeatherDetails(for: city)
+                case .finish:
+                    finish()
+                case let .showAlert(title, message):
+                    showAlert(title: title, message: message)
+                }
+            }
+            .store(in: &cancellables)
     }
     
 }

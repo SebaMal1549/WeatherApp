@@ -45,6 +45,7 @@ final class WeatherConditionTileView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupView()
+        setupConstraints()
     }
     
     required init?(coder: NSCoder) {
@@ -64,7 +65,9 @@ final class WeatherConditionTileView: UIView {
         addSubview(mainStackView)
         mainStackView.addArrangedSubview(titleLabel)
         mainStackView.addArrangedSubview(valueLabel)
-        
+    }
+    
+    private func setupConstraints() {
         NSLayoutConstraint.activate([
             mainStackView.heightAnchor.constraint(equalTo: heightAnchor),
             mainStackView.widthAnchor.constraint(equalTo: widthAnchor),

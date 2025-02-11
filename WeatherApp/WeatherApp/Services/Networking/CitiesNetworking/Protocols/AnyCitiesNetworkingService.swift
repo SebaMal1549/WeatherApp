@@ -8,7 +8,7 @@
 import Foundation
 
 /// A protocol describing networking for a city search service.
-protocol AnyCitiesNetworkingService {
+protocol CitiesNetworkingServiceType {
     
     /// The method responsible for retrieving the list of cities matching the search text.
     func fetchCities(searchText: String?) async throws -> [City]

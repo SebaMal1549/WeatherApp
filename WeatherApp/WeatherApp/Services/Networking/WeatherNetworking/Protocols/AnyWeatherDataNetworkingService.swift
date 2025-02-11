@@ -8,7 +8,7 @@
 import Foundation
 
 /// A protocol describing networking for a city weather details service.
-protocol AnyWeatherDataNetworkingService {
+protocol WeatherDataNetworkingServiceType {
     
     /// The method responsible for retrieving information on weather conditions in the selected city.
     func fetchWeatherData(cityKey: String) async throws -> WeatherData

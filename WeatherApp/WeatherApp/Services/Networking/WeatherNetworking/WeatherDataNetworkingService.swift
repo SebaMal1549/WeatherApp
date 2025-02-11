@@ -9,18 +9,12 @@
 import Foundation
 
 /// Networking set up for city-related enquiries.
-final class WeatherDataNetworkingService: AnyWeatherDataNetworkingService {
+final class WeatherDataNetworkingService: WeatherDataNetworkingServiceType {
     
     // MARK: - Properties
     
     // Builder for cities requets.
-    private let requestBuilder: WeatherDataURLRequestBuilder
-    
-    // MARK: - Lifecycle
-    
-    init(requestBuilder: WeatherDataURLRequestBuilder) {
-        self.requestBuilder = requestBuilder
-    }
+    private let requestBuilder = WeatherDataURLRequestBuilder()
     
     // MARK: - API
     

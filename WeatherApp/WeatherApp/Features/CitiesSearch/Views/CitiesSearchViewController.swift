@@ -24,7 +24,7 @@ final class CitiesSearchViewController: UIViewController {
     init(viewModel: CitiesSearchViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
-        bind()
+        bindEvents()
     }
     
     required init?(coder: NSCoder) {
@@ -48,7 +48,7 @@ final class CitiesSearchViewController: UIViewController {
     
     // MARK: - Methods
     
-    private func bind() {
+    private func bindEvents() {
         customView.textFieldPublisher
             .map { .userEditedSearchText($0) }
             .subscribe(viewModel.eventsSubject)

@@ -14,8 +14,8 @@ final class CitiesTableViewController: UITableViewController {
     // MARK: - Publisher
     
     /// Publisher responsible for informing that the user has selected some cell in the list of cities.
-    lazy var userTappedCityCell = _userTappedCityCell.eraseToAnyPublisher()
-    private let _userTappedCityCell = PassthroughSubject<City, Never>()
+    lazy var userTappedCityCellPublisher = _userTappedCityCellSubject.eraseToAnyPublisher()
+    private let _userTappedCityCellSubject = PassthroughSubject<City, Never>()
     
     // MARK: - Properties
     
@@ -59,7 +59,7 @@ final class CitiesTableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        _userTappedCityCell.send(cities[indexPath.row])
+        _userTappedCityCellSubject.send(cities[indexPath.row])
     }
 
 }

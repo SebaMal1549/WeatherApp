@@ -18,28 +18,27 @@ final class CityWeatherDetailsViewModel {
     lazy var weatherDataFetchedPublisher = _weatherDataFetchedPublisher.eraseToAnyPublisher()
     private let _weatherDataFetchedPublisher = PassthroughSubject<(WeatherData, City), Never>()
     
+    lazy var navigationEventsPublisher = _navigationEventsSubject.eraseToAnyPublisher()
+    private let _navigationEventsSubject = PassthroughSubject<NavigationEvent, Never>()
+    
     // MARK: - Properties
     
     private let city: City
-    private let networkingService: AnyWeatherDataNetworkingService
-    
-    private weak var coordinator: CityWeatherDetailsCoordinator?
+    private let networkingService: WeatherDataNetworkingServiceType
     
     // MARK: - Lifecycle
     
     init(
         city: City,
-        networkingService: AnyWeatherDataNetworkingService,
-        coordinator: CityWeatherDetailsCoordinator?
+        networkingService: WeatherDataNetworkingServiceType
     ) {
         self.city = city
         self.networkingService = networkingService
-        self.coordinator = coordinator
         fetchWeatherData()
     }
     
     deinit {
-        coordinator?.finish()
+        _navigationEventsSubject.send(.finish)
     }
     
     // MARK: - API
@@ -52,8 +51,8 @@ final class CityWeatherDetailsViewModel {
                 _weatherDataFetchedPublisher.send((weatherData, city))
             } catch {
                 os_log("NetworkingError: \(error.localizedDescription)")
-                coordinator?.showAlert(title: "Nie udało się pobrać szczegółów pogody.",
-                                       message: "Spróbuj ponownie później.")
+                _navigationEventsSubject.send(.showAlert(title: "Nie udało się pobrać szczegółów pogody.",
+                                                         message: "Spróbuj ponownie później."))
             }
         }
     }

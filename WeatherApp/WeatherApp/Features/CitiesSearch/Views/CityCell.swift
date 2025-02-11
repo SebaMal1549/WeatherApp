@@ -47,6 +47,7 @@ final class CityCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupView()
+        setupConstraints()
     }
     
     required init?(coder: NSCoder) {
@@ -69,7 +70,9 @@ final class CityCell: UITableViewCell {
         
         mainStack.addArrangedSubview(cityNameLabel)
         mainStack.addArrangedSubview(areaNameLabel)
-        
+    }
+    
+    private func setupConstraints() {
         NSLayoutConstraint.activate([
             mainStack.widthAnchor.constraint(equalTo: contentView.widthAnchor),
             mainStack.heightAnchor.constraint(equalTo: contentView.heightAnchor)
