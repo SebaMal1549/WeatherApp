@@ -25,13 +25,7 @@ final class CitiesTableViewController: UITableViewController {
         }
     }
 
-    var savedCities = [City(
-        area: AdministrativeArea(name: "Małopolska"),
-        country: Country(name: "Polska"),
-        key: "test",
-        name: "Kraków",
-        rank: 1
-    )] {
+    var savedCities = [City]() {
         didSet {
             reload()
         }
