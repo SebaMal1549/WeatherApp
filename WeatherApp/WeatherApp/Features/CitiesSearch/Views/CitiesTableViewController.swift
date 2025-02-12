@@ -5,6 +5,8 @@
 //  Created by Sebastian Maludziński on 06/02/2025.
 //
 
+// swiftlint:disable line_length
+
 import Combine
 import UIKit
 
@@ -16,6 +18,9 @@ final class CitiesTableViewController: UITableViewController {
     /// Publisher responsible for informing that the user has selected some cell in the list of cities.
     lazy var userTappedCityCellPublisher = _userTappedCityCellSubject.eraseToAnyPublisher()
     private let _userTappedCityCellSubject = PassthroughSubject<City, Never>()
+
+    lazy var userDeletedSavedCityPublisher = _userDeletedSavedCityPublisher.eraseToAnyPublisher()
+    private let _userDeletedSavedCityPublisher = PassthroughSubject<City, Never>()
 
     // MARK: - Properties
 
@@ -106,6 +111,28 @@ final class CitiesTableViewController: UITableViewController {
         guard let header = view as? UITableViewHeaderFooterView else { return }
         header.textLabel?.textAlignment = .left
         header.textLabel?.frame = CGRect(x: 0, y: 0, width: tableView.frame.width, height: header.frame.height)
+    }
+
+    override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        switch Section(rawValue: indexPath.section) {
+        case .savedCities:
+            createSwipeActionsConfiguration(tableView, indexPath: indexPath)
+        default:
+            nil
+        }
+    }
+
+    // MARK: - Methods
+
+    private func createSwipeActionsConfiguration(_ tableView: UITableView, indexPath: IndexPath) -> UISwipeActionsConfiguration {
+        let deleteAction = UIContextualAction(style: .destructive, title: "Usuń") { [weak self] (_, _, completionHandler) in
+            guard let self else { return }
+            _userDeletedSavedCityPublisher.send(savedCities[indexPath.row])
+            completionHandler(true)
+        }
+
+        let swipeActions = UISwipeActionsConfiguration(actions: [deleteAction])
+        return swipeActions
     }
 
 }

@@ -55,10 +55,15 @@ final class CitiesSearchViewController: UIViewController {
             .subscribe(viewModel.eventsSubject)
             .store(in: &cancellables)
 
+        customView.userDeletedSavedCityPublisher
+            .map { .userDeletedSavedCity($0) }
+            .subscribe(viewModel.eventsSubject)
+            .store(in: &cancellables)
+
         viewModel.citiesListFetchedPublisher
-            .sink { [weak self] cities in
+            .sink { [weak self] event in
                 guard let self else { return }
-                customView.reloadCities(with: cities)
+                customView.reloadCities(with: event)
             }
             .store(in: &cancellables)
     }
