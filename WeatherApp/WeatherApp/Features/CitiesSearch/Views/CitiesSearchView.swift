@@ -13,8 +13,8 @@ final class CitiesSearchView: UIView {
 
     // MARK: - Publishers
 
-    /// Publisher responsible for informing that the user has selected some cell in the list of cities.
     lazy var userTappedCityCellPublisher = citiesTableViewController.userTappedCityCellPublisher
+    lazy var userDeletedSavedCityPublisher = citiesTableViewController.userDeletedSavedCityPublisher
 
     /// Publisher indicating that a user has typed something in the search field.
     lazy var textFieldPublisher = textField.textPublisher
@@ -54,8 +54,13 @@ final class CitiesSearchView: UIView {
     // MARK: - API
 
     /// The method responsible for refreshing the list of cities.
-    func reloadCities(with cities: [City]) {
-        citiesTableViewController.cities = cities
+    func reloadCities(with event: CitiesSearchViewModel.CitiesChangedEvent) {
+        switch event {
+        case let .cities(cities):
+            citiesTableViewController.cities = cities
+        case let .savedCities(savedCities):
+            citiesTableViewController.savedCities = savedCities
+        }
     }
 
     func clearSearchText() {

@@ -8,10 +8,12 @@
 
 /* Begin PBXBuildFile section */
 		3411700A2D54DB4900624A79 /* CombineCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = 341170092D54DB4900624A79 /* CombineCocoa */; };
+		34E29F232D5C730A00396065 /* Database in Frameworks */ = {isa = PBXBuildFile; productRef = 34E29F222D5C730A00396065 /* Database */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		34116F342D520FC700624A79 /* WeatherApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WeatherApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		34E29F202D5B82B400396065 /* Database */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Database; path = ../Database; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -41,6 +43,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3411700A2D54DB4900624A79 /* CombineCocoa in Frameworks */,
+				34E29F232D5C730A00396065 /* Database in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -50,7 +53,9 @@
 		34116F2B2D520FC700624A79 = {
 			isa = PBXGroup;
 			children = (
+				34E29F202D5B82B400396065 /* Database */,
 				34116F362D520FC700624A79 /* WeatherApp */,
+				34E29F212D5C730A00396065 /* Frameworks */,
 				34116F352D520FC700624A79 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -61,6 +66,13 @@
 				34116F342D520FC700624A79 /* WeatherApp.app */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		34E29F212D5C730A00396065 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -85,6 +97,7 @@
 			name = WeatherApp;
 			packageProductDependencies = (
 				341170092D54DB4900624A79 /* CombineCocoa */,
+				34E29F222D5C730A00396065 /* Database */,
 			);
 			productName = WeatherApp;
 			productReference = 34116F342D520FC700624A79 /* WeatherApp.app */;
@@ -402,6 +415,10 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 341170082D54DB4900624A79 /* XCRemoteSwiftPackageReference "CombineCocoa" */;
 			productName = CombineCocoa;
+		};
+		34E29F222D5C730A00396065 /* Database */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Database;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
