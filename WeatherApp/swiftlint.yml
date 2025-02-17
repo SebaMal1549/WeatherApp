@@ -54,6 +54,7 @@ included:
 
 excluded:
   - Pods
+  - WeatherApp/WeatherAppTests
   - "**/*.generated.swift"
 
 force_cast: error
@@ -103,3 +104,4 @@ custom_rules:
 
 # identifier_name:
 #     allowed_symbols: ["_"]
+

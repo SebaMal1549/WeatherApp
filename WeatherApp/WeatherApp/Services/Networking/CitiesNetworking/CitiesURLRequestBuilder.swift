@@ -7,7 +7,7 @@
 
 import Foundation
 
-final class CitiesURLRequestBuilder {
+final class CitiesURLRequestBuilder: CitiesURLRequestBuilderType {
 
     // MARK: - API
 
