@@ -12,20 +12,35 @@ final class WeatherDataNetworkingService: WeatherDataNetworkingServiceType {
 
     // MARK: - Properties
 
-    // Builder for cities requets.
-    private let requestBuilder = WeatherDataURLRequestBuilder()
+    private let session: URLSessionType
+    private let requestBuilder: WeatherDataURLRequestBuilderType
+    private let validator: ResponseValidatorType
+
+    // MARK: - Lifecycle
+
+    init(
+        session: URLSessionType = URLSession.shared,
+        requestBuilder: WeatherDataURLRequestBuilderType = WeatherDataURLRequestBuilder(),
+        validator: ResponseValidatorType = ResponseValidator()
+    ) {
+        self.session = session
+        self.requestBuilder = requestBuilder
+        self.validator = validator
+    }
 
     // MARK: - API
 
     func fetchWeatherData(cityKey: String) async throws -> WeatherData {
         let urlRequest = try requestBuilder.createRequest(with: cityKey)
-        let (data, response) = try await URLSession.shared.data(for: urlRequest)
-        try ResponseValidator.validate(response)
-
-        if let weatherData = try JSONDecoder().decode([WeatherData].self, from: data).first {
-            return weatherData
-        } else {
-            throw NetworkError.wrongData
+        let (data, response) = try await session.data(for: urlRequest)
+        try validator.validate(response)
+        
+        do {
+            let weatherData = try JSONDecoder().decode([WeatherData].self, from: data)
+            guard let details = weatherData.first else { throw NetworkError.wrongData }
+            return details
+        } catch {
+            throw NetworkError.decodingFailed
         }
     }
 

@@ -1,5 +1,5 @@
 {
-  "originHash" : "eb61b0458d7517de02a053c117cba4fd21ecf0a14163d24b3491c7c33ec6bb7f",
+  "originHash" : "45a5ee292882131d6bc714ed7933067ccce703580899e81eae2601d472668309",
   "pins" : [
     {
       "identity" : "combinecocoa",
@@ -11,12 +11,48 @@
       }
     },
     {
+      "identity" : "cwlcatchexception",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/mattgallagher/CwlCatchException.git",
+      "state" : {
+        "revision" : "07b2ba21d361c223e25e3c1e924288742923f08c",
+        "version" : "2.2.1"
+      }
+    },
+    {
+      "identity" : "cwlpreconditiontesting",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/mattgallagher/CwlPreconditionTesting.git",
+      "state" : {
+        "revision" : "0139c665ebb45e6a9fbdb68aabfd7c39f3fe0071",
+        "version" : "2.2.2"
+      }
+    },
+    {
       "identity" : "grdb.swift",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/groue/GRDB.swift",
       "state" : {
         "revision" : "ea6d8e0123b0db79cd3cf736f5d9798a89839c51",
         "version" : "7.1.0"
+      }
+    },
+    {
+      "identity" : "nimble",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/Quick/Nimble",
+      "state" : {
+        "revision" : "ecade0f20e58e55ba3e5f110b701dad88fd40170",
+        "version" : "12.0.0"
+      }
+    },
+    {
+      "identity" : "quick",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/Quick/Quick",
+      "state" : {
+        "revision" : "e206b8deba0d01fce70388a6d9dc66cba5603958",
+        "version" : "7.0.0"
       }
     },
     {

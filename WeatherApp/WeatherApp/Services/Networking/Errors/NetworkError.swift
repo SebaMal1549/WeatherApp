@@ -21,6 +21,8 @@ enum NetworkError: Error {
 
     /// Occurs when the downloaded data is invaid.
     case wrongData
+    
+    case decodingFailed
 
     // MARK: - Properties
 
@@ -30,6 +32,7 @@ enum NetworkError: Error {
         case .badResponse: "Bad response."
         case .requestFailed(statusCode: let code): "Request failed with status code: \(code)."
         case .wrongData: "Downloaded data is invalid."
+        case .decodingFailed: "Data decoding failed."
         }
     }
 

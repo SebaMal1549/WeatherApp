@@ -8,10 +8,10 @@
 import Foundation
 
 /// Struct responsible for simple response validation.
-struct ResponseValidator {
+struct ResponseValidator: ResponseValidatorType {
 
     /// Basic response validation method.
-    static func validate(_ response: URLResponse?) throws {
+    func validate(_ response: URLResponse?) throws {
         guard let response = response as? HTTPURLResponse else {
             throw NetworkError.badResponse
         }
