@@ -51,12 +51,12 @@ final class WeatherDataNetworkingServiceTests: AsyncSpec {
                         httpVersion: nil,
                         headerFields: nil
                     )
-                    
+
                     session.mockResponse = mockResponse
                     session.mockData = WeatherDetailsDataBuilder.getWeatherDetailsData()
                     requestBuilder.createRequestWithCityKeyStringURLRequestReturnValue = URLRequest(url: url)
                 }
-                
+
                 it("returns list of cities") {
                     await expect { try await sut.fetchWeatherData(cityKey: "2746") }
                         .to(equal(WeatherData(weatherText: "Bezchmurnie",
@@ -66,10 +66,10 @@ final class WeatherDataNetworkingServiceTests: AsyncSpec {
                                               wind: Wind(speed: Speed(metric: Metric(value: 10.2, unit: "km/h"))),
                                               visibility: Visibility(metric: Metric(value: 24.1, unit: "km")))
                         ))
-                    expect { validator.validateResponseURLResponseVoidCallsCount }.to(equal(1))
-                    expect { validator.validateResponseURLResponseVoidCalled }.to(equal(true))
-                    expect { requestBuilder.createRequestWithCityKeyStringURLRequestCallsCount }.to(equal(1))
-                    expect { requestBuilder.createRequestWithCityKeyStringURLRequestCalled }.to(equal(true))
+                    expect(validator.validateResponseURLResponseVoidCallsCount).to(equal(1))
+                    expect(validator.validateResponseURLResponseVoidCalled).to(equal(true))
+                    expect(requestBuilder.createRequestWithCityKeyStringURLRequestCallsCount).to(equal(1))
+                    expect(requestBuilder.createRequestWithCityKeyStringURLRequestCalled).to(equal(true))
                 }
             }
 
@@ -90,9 +90,9 @@ final class WeatherDataNetworkingServiceTests: AsyncSpec {
                 it("throws an request error") {
                     await expect { try await sut.fetchWeatherData(cityKey: "2746") }
                         .to(throwError(NetworkError.requestFailed(statusCode: 404)))
-                    expect { validator.validateResponseURLResponseVoidCallsCount }.to(equal(1))
-                    expect { requestBuilder.createRequestWithCityKeyStringURLRequestCallsCount }.to(equal(1))
-                    expect { requestBuilder.createRequestWithCityKeyStringURLRequestCalled }.to(equal(true))
+                    expect(validator.validateResponseURLResponseVoidCallsCount).to(equal(1))
+                    expect(requestBuilder.createRequestWithCityKeyStringURLRequestCallsCount).to(equal(1))
+                    expect(requestBuilder.createRequestWithCityKeyStringURLRequestCalled).to(equal(true))
                 }
             }
 
@@ -112,10 +112,10 @@ final class WeatherDataNetworkingServiceTests: AsyncSpec {
                 it("throws an decoding error") {
                     await expect { try await sut.fetchWeatherData(cityKey: "2746") }
                         .to(throwError(NetworkError.decodingFailed))
-                    expect { validator.validateResponseURLResponseVoidCallsCount }.to(equal(1))
-                    expect { validator.validateResponseURLResponseVoidCalled }.to(equal(true))
-                    expect { requestBuilder.createRequestWithCityKeyStringURLRequestCallsCount }.to(equal(1))
-                    expect { requestBuilder.createRequestWithCityKeyStringURLRequestCalled }.to(equal(true))
+                    expect(validator.validateResponseURLResponseVoidCallsCount).to(equal(1))
+                    expect(validator.validateResponseURLResponseVoidCalled).to(equal(true))
+                    expect(requestBuilder.createRequestWithCityKeyStringURLRequestCallsCount).to(equal(1))
+                    expect(requestBuilder.createRequestWithCityKeyStringURLRequestCalled).to(equal(true))
                 }
             }
             

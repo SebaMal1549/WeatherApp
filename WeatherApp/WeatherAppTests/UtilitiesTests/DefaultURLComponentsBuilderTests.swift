@@ -15,12 +15,15 @@ final class DefaultURLComponentsBuilderTests: QuickSpec {
 
     override class func spec() {
         describe("Create URLComponents") {
-            it("Create URLComponents") {
+            context("Url for request is correct") {
                 let url = URL(string: "https://example.com")!
                 let urlComponents = DefaultURLComponentsBuilder.create(for: url)
-                expect { urlComponents?.queryItems?.count }.to(equal(2))
-                expect { urlComponents?.queryItems }.to(equal([URLQueryItem(name: "apikey", value: "xgozIFzmA3lCWQZzIdkBuEM1G8C6Z6Vi"),
-                                                               URLQueryItem(name: "language", value: "pl")]))
+
+                it("Create URLComponents") {
+                    expect(urlComponents?.queryItems?.count).to(equal(2))
+                    expect(urlComponents?.queryItems).to(equal([URLQueryItem(name: "apikey", value: "xgozIFzmA3lCWQZzIdkBuEM1G8C6Z6Vi"),
+                                                                URLQueryItem(name: "language", value: "pl")]))
+                }
             }
         }
     }

@@ -42,12 +42,6 @@ final class WeatherDataNetworkingService: WeatherDataNetworkingServiceType {
         } catch {
             throw NetworkError.decodingFailed
         }
-
-//        if let weatherData = try JSONDecoder().decode([WeatherData].self, from: data).first {
-//            return weatherData
-//        } else {
-//            throw NetworkError.decodingFailed
-//        }
     }
 
 }

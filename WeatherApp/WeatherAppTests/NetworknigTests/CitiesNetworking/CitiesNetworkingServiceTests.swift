@@ -56,9 +56,7 @@ final class CitiesNetworkingServiceTests: AsyncSpec {
                     session.mockResponse = mockResponse
                     session.mockData = CitiesDataBuilder.getCitiesData()
                     requestBuilder.createRequestWithSerachTextStringURLRequestReturnValue = URLRequest(url: url)
-                }
 
-                it("returns list of cities") {
                     await expect { try await sut.fetchCities(searchText: "Warszawa") }
                         .to(equal([City(
                             area: WeatherApp.AdministrativeArea(name: "Mazowieckie"),
@@ -66,11 +64,14 @@ final class CitiesNetworkingServiceTests: AsyncSpec {
                             key: "274663",
                             name: "Warszawa",
                             rank: 20)
-                        ]))
-                    expect { validator.validateResponseURLResponseVoidCallsCount }.to(equal(1))
-                    expect { validator.validateResponseURLResponseVoidCalled }.to(equal(true))
-                    expect { requestBuilder.createRequestWithSerachTextStringURLRequestCallsCount }.to(equal(1))
-                    expect { requestBuilder.createRequestWithSerachTextStringURLRequestCalled }.to(equal(true))
+                        ]))z
+                }
+
+                it("returns list of cities") {
+                    expect(validator.validateResponseURLResponseVoidCallsCount).to(equal(1))
+                    expect(validator.validateResponseURLResponseVoidCalled).to(equal(true))
+                    expect(requestBuilder.createRequestWithSerachTextStringURLRequestCallsCount).to(equal(1))
+                    expect(requestBuilder.createRequestWithSerachTextStringURLRequestCalled).to(equal(true))
                 }
             }
 
@@ -86,14 +87,15 @@ final class CitiesNetworkingServiceTests: AsyncSpec {
                     session.mockResponse = mockResponse
                     validator.validateResponseURLResponseVoidThrowableError = NetworkError.requestFailed(statusCode: 404)
                     requestBuilder.createRequestWithSerachTextStringURLRequestReturnValue = URLRequest(url: url)
+
+                    await expect { try await sut.fetchCities(searchText: "Warszawa") }
+                        .to(throwError(NetworkError.requestFailed(statusCode: 404)))
                 }
 
                 it("throws an request error") {
-                    await expect { try await sut.fetchCities(searchText: "Warszawa") }
-                        .to(throwError(NetworkError.requestFailed(statusCode: 404)))
-                    expect { validator.validateResponseURLResponseVoidCallsCount }.to(equal(1))
-                    expect { requestBuilder.createRequestWithSerachTextStringURLRequestCallsCount }.to(equal(1))
-                    expect { requestBuilder.createRequestWithSerachTextStringURLRequestCalled }.to(equal(true))
+                    expect(validator.validateResponseURLResponseVoidCallsCount).to(equal(1))
+                    expect(requestBuilder.createRequestWithSerachTextStringURLRequestCallsCount).to(equal(1))
+                    expect(requestBuilder.createRequestWithSerachTextStringURLRequestCalled).to(equal(true))
                 }
             }
 
@@ -108,15 +110,16 @@ final class CitiesNetworkingServiceTests: AsyncSpec {
 
                     session.mockResponse = mockResponse
                     requestBuilder.createRequestWithSerachTextStringURLRequestReturnValue = URLRequest(url: url)
+
+                    await expect { try await sut.fetchCities(searchText: "Warszawa") }
+                        .to(throwError(NetworkError.decodingFailed))
                 }
 
                 it("throws an decoding error") {
-                    await expect { try await sut.fetchCities(searchText: "Warszawa") }
-                        .to(throwError(NetworkError.decodingFailed))
-                    expect { validator.validateResponseURLResponseVoidCallsCount }.to(equal(1))
-                    expect { validator.validateResponseURLResponseVoidCalled }.to(equal(true))
-                    expect { requestBuilder.createRequestWithSerachTextStringURLRequestCallsCount }.to(equal(1))
-                    expect { requestBuilder.createRequestWithSerachTextStringURLRequestCalled }.to(equal(true))
+                    expect(validator.validateResponseURLResponseVoidCallsCount).to(equal(1))
+                    expect(validator.validateResponseURLResponseVoidCalled).to(equal(true))
+                    expect(requestBuilder.createRequestWithSerachTextStringURLRequestCallsCount).to(equal(1))
+                    expect(requestBuilder.createRequestWithSerachTextStringURLRequestCalled).to(equal(true))
                 }
             }
         }

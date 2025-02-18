@@ -15,12 +15,16 @@ final class URLProviderTests: QuickSpec {
 
     override class func spec() {
         describe("Get URL") {
-            it("Cities URL") {
-                expect { URLProvider.citiesURL }.to(equal(URL(string: "https://dataservice.accuweather.com/locations/v1/search")!))
+            context("Correct components of cities search url") {
+                it("Return correct URL") {
+                    expect { URLProvider.citiesURL }.to(equal(URL(string: "https://dataservice.accuweather.com/locations/v1/search")!))
+                }
             }
 
-            it("City weather details URL") {
-                expect { URLProvider.createWeatherDataURL(with: "Warszawa") }.to(equal(URL(string: "https://dataservice.accuweather.com/currentconditions/v1/Warszawa")!))
+            context("Correct components of city wetaher details url") {
+                it("City weather details URL") {
+                    expect { URLProvider.createWeatherDataURL(with: "Warszawa") }.to(equal(URL(string: "https://dataservice.accuweather.com/currentconditions/v1/Warszawa")!))
+                }
             }
         }
 
