@@ -64,7 +64,7 @@ final class CitiesNetworkingServiceTests: AsyncSpec {
                             key: "274663",
                             name: "Warszawa",
                             rank: 20)
-                        ]))z
+                        ]))
                 }
 
                 it("returns list of cities") {
